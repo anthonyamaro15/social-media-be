@@ -13,12 +13,20 @@ exports.up = function(knex) {
       table.string("post");
       table.boolean("like_post").defaultTo(false);
       table.integer('likes_count');
-      table.integer('comments_id').notNullable().references("comments.id").onUpdate("CASCADE").onDelete("CASCADE");
-      table.integer("user_id").notNullable().references("users.id").onUpdate('CASCADE').onDelete('CASCADE');
+   })
+   .createTable("user_post", table => {
+      table.increments();
+      table.integer("post_id").notNullable().references("posts.id").onUpdate("CASCADE").onDelete("CASCADE");
+      table.integer("user_id").notNullable().references("users.id").onUpdate("CASCADE").onDelete("CASCADE");
+   })
+   .createTable("user_comment", table => {
+      table.increments();
+      table.integer("post_id").notNullable().references("posts.id").onUpdate("CASCADE").onDelete("CASCADE");
+      table.integer("comment_id").notNullable().references("comments.id").onUpdate("CASCADE").onDelete("CASCADE");
    })
   
 };
 
 exports.down = function(knex) {
-  return knex.schema.dropTableIfExists("posts").dropTableIfExists("comments").dropTableIfExists("users");
+  return knex.schema.dropTableIfExists("user_comment").dropTableIfExists("user_post").dropTableIfExists("posts").dropTableIfExists('comments').dropTableIfExists("users");
 };
