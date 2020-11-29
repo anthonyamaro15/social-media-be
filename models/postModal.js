@@ -24,8 +24,17 @@ async function getAll() {
    )
 }
 
+async function removeComment(user_id, comment_id) {
+   const userComments = await db("comments as c").join("user_comment as uc", "c.id", "uc.comment_id").where({"uc.user_id": user_id});
+   return Promise.all(userComments.map(async (comment) => ({
+      ...comment,
+      comments: await db("comments as c").where({"c.id": comment_id}).del()
+   })));
+}
+
 module.exports = {
    add,
    getAll,
-   addComment
+   addComment,
+   removeComment
 };
