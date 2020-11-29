@@ -7,6 +7,22 @@ async function add(user_id, post) {
    return postId;
 }
 
+function findUserPost(user_id, post_id) {
+   return db("posts as p").join("user_post as up", "p.id", "up.post_id").where({"up.user_id": user_id}).where({"p.id": post_id});
+}
+
+async function removePost(user_id, post_id) {
+   const [post] = await findUserPost(user_id, post_id);
+   return db("posts as p").where("p.id", post.post_id).del();
+}
+
+async function updatePost(user_id, post_id, changes) {
+   const [post] = await findUserPost(user_id, post_id);
+   return db("posts as p").where("p.id", post.post_id).update(changes,"id");
+}
+
+// COMMENTS
+
 async function addComment(user_id, post_id, comment) {
    const [id] = await db('comments').insert(comment, 'id');
    const userCommentBody = {user_id, post_id, comment_id: id};
@@ -24,17 +40,26 @@ async function getAll() {
    )
 }
 
+function findUserComments(user_id, comment_id) {
+   return  db("comments as c").join("user_comment as uc", "c.id", "uc.comment_id").where({"uc.user_id": user_id}).where({"uc.comment_id": comment_id});
+}
+
 async function removeComment(user_id, comment_id) {
-   const userComments = await db("comments as c").join("user_comment as uc", "c.id", "uc.comment_id").where({"uc.user_id": user_id});
-   return Promise.all(userComments.map(async (comment) => ({
-      ...comment,
-      comments: await db("comments as c").where({"c.id": comment_id}).del()
-   })));
+   const [comment] = await findUserComments(user_id, comment_id);
+   return db("comments as c").where("c.id", comment.id).del();
+}
+
+async function updateComment(user_id, comment_id, changes) {
+   const [comment] = await findUserComments(user_id, comment_id);
+   return db("comments as c").where("c.id", comment.id).update(changes);
 }
 
 module.exports = {
    add,
    getAll,
+   removePost,
+   updatePost,
    addComment,
-   removeComment
+   removeComment,
+   updateComment
 };
