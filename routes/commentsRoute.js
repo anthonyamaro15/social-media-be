@@ -18,8 +18,8 @@ route.patch("/update_comment/:user_id/:comment_id", async (req, res) => {
    const {user_id, comment_id} = req.params;
 
    try {
-      const updatedComment = await Comment.updateComment(user_id, comment_id, req.body);
-      res.status(200).json(updatedComment);
+      Comment.updateComment(user_id, comment_id, req.body);
+      res.status(200).json({message: "comment updated successfully!."});
    } catch (error) {
       res.status(500).json({errMessage: error.message});
    }
@@ -29,8 +29,8 @@ route.delete("/delete_comment/:user_id/:comment_id", async (req, res) => {
    const {user_id, comment_id} = req.params;
 
    try {
-      const userDeleted = await Comment.removeComment(user_id, comment_id);
-      res.status(200).json(userDeleted);
+      Comment.removeComment(user_id, comment_id);
+      res.status(200).json({message: "comment deleted successfully!."});
    } catch (error) {
       res.status(500).json({errMessage: error.message});
    }
