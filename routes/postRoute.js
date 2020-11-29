@@ -39,4 +39,15 @@ route.put("/update_comment/:user_id/:comment_id", async (req, res) => {
    const {user_id, comment_id} = req.params;
 })
 
+route.delete("/delete_comment/:user_id/:comment_id", async (req, res) => {
+   const {user_id, comment_id} = req.params;
+
+   try {
+      const userDeleted = await Post.removeComment(user_id, comment_id);
+      res.status(200).json(userDeleted);
+   } catch (error) {
+      res.status(500).json({errMessage: error.message});
+   }
+})
+
 module.exports = route;
