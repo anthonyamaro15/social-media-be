@@ -3,12 +3,13 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const User = require('../models/userModal');
+const {validateBody} = require("../middlewares/userMiddlewares");
 
 const route = express.Router();
 
 // check if users already exist, if it exists return a message
 // otherwise add new user
-route.post('/register', async (req, res) => {
+route.post('/register', validateBody, async (req, res) => {
    const userInfo = req.body;
    const {email } = req.body;
 
@@ -30,7 +31,7 @@ route.post('/register', async (req, res) => {
 })
 
 // login
-route.post("/login", async (req,res) => {
+route.post("/login", validateBody, async (req,res) => {
    const {email, password} = req.body;
 
    try {

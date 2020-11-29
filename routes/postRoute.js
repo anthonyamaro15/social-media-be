@@ -1,5 +1,7 @@
 const express = require("express");
 const Post = require("../models/postModal");
+const {validateIds} = require("../middlewares/postMIddleware");
+const {validateUserId} = require("../middlewares/userMiddlewares");
 
 const route = express.Router();
 
@@ -13,7 +15,7 @@ route.get('/get_post', async (req, res) => {
    }
 });
 
-route.post('/create/:user_id', async (req, res) => {
+route.post('/create/:user_id', validateUserId, async (req, res) => {
    const {user_id} = req.params;
 
    try {
@@ -24,7 +26,7 @@ route.post('/create/:user_id', async (req, res) => {
    }
 })
 
-route.patch("/update_post/:user_id/:post_id", async (req, res) => {
+route.patch("/update_post/:user_id/:post_id", validateIds, async (req, res) => {
    const {user_id, post_id} = req.params;
 
    try {
@@ -35,7 +37,7 @@ route.patch("/update_post/:user_id/:post_id", async (req, res) => {
    }
 })
 
-route.delete("/delete_post/:user_id/:post_id", async (req, res) => {
+route.delete("/delete_post/:user_id/:post_id", validateIds, async (req, res) => {
    const {user_id, post_id} = req.params;
 
    try {

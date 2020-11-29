@@ -1,9 +1,11 @@
 const express = require("express");
 const Comment = require("../models/commentModal");
+// const {validateCommentIds} = require("../middlewares/commentMiddleware");
+
 const route = express.Router();
 
 
-route.post("/add_comment/:user_id/:post_id", async (req, res) => {
+route.post("/add_comment/:user_id/:post_id",  async (req, res) => {
    const {user_id, post_id} = req.params;
 
    try {
@@ -14,7 +16,8 @@ route.post("/add_comment/:user_id/:post_id", async (req, res) => {
    }
 })
 
-route.patch("/update_comment/:user_id/:comment_id", async (req, res) => {
+route.patch("/update_comment/:user_id/:comment_id",  async (req, res) => {
+
    const {user_id, comment_id} = req.params;
 
    try {
@@ -26,6 +29,7 @@ route.patch("/update_comment/:user_id/:comment_id", async (req, res) => {
 })
 
 route.delete("/delete_comment/:user_id/:comment_id", async (req, res) => {
+
    const {user_id, comment_id} = req.params;
 
    try {
