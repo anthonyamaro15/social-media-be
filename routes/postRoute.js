@@ -24,15 +24,19 @@ route.post('/create/:user_id', async (req, res) => {
    }
 })
 
-route.post("/add_comment/:post_id", async (req, res) => {
-   const {post_id} = req.params;
+route.post("/add_comment/:user_id/:post_id", async (req, res) => {
+   const {user_id, post_id} = req.params;
 
    try {
-      const commentId = await Post.addComment(post_id, req.body);
+      const commentId = await Post.addComment(user_id, post_id, req.body);
       res.status(201).json(commentId);
    } catch (error) {
       res.status(500).json({errMessage: error.message});
    }
+})
+
+route.put("/update_comment/:user_id/:comment_id", async (req, res) => {
+   const {user_id, comment_id} = req.params;
 })
 
 module.exports = route;

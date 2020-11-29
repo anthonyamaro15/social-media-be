@@ -7,9 +7,10 @@ async function add(user_id, post) {
    return postId;
 }
 
-async function addComment(post_id, comment) {
+async function addComment(user_id, post_id, comment) {
    const [id] = await db('comments').insert(comment, 'id');
-   const commentId = await db("user_comment").insert({post_id, comment_id: id}, 'id');
+   const userCommentBody = {user_id, post_id, comment_id: id};
+   const commentId = await db("user_comment").insert(userCommentBody, 'id');
    return commentId;
 }
 

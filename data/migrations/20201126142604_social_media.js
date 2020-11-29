@@ -21,6 +21,7 @@ exports.up = function(knex) {
    })
    .createTable("user_comment", table => {
       table.increments();
+      table.integer("user_id").notNullable();
       table.integer("post_id").notNullable().references("posts.id").onUpdate("CASCADE").onDelete("CASCADE");
       table.integer("comment_id").notNullable().references("comments.id").onUpdate("CASCADE").onDelete("CASCADE");
    })
