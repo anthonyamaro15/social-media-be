@@ -49,6 +49,7 @@ async function getAll() {
 }
 
 module.exports = {
+   findById,
    add,
    getAll,
    removePost,

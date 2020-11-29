@@ -34,6 +34,7 @@ async function updateComment(user_id, comment_id, changes) {
 }
 
 module.exports = {
+   findById,
    addComment,
    removeComment,
    updateComment
