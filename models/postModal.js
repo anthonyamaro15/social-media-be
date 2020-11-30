@@ -40,6 +40,11 @@ async function getAll() {
    return Promise.all(
       posts.map(async (post) => ({
             ...post,
+            username: await db("users as u")
+               .join("user_post as up", "u.id", "up.user_id")
+               .where({"up.post_id": post.id})
+               .select("u.username")
+               .first(),
             comments: await db("comments as c")
                .join("user_comment as u", "c.id", "u.comment_id")
                .where({"u.post_id": post.id})

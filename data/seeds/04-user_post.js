@@ -9,5 +9,8 @@ exports.seed = function(knex) {
         {post_id: 4, user_id: 3},
         {post_id: 6, user_id: 2},
         {post_id: 5, user_id: 3},
+        {post_id: 7, user_id: 2},
+        {post_id: 8, user_id: 1},
+
       ]);
 };

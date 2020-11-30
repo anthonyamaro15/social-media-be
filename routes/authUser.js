@@ -38,7 +38,7 @@ route.post("/login", validateBody, async (req,res) => {
       const [user] = await User.findBy({email});
       if(user && bcrypt.compareSync(password, user.password)) {
          const token = generateToken(user);
-         res.status(200).json({token});
+         res.status(200).json({token, username: user.username});
    } else {
       res.status(401).json({errMessage: "invalid email or password"});
    }
